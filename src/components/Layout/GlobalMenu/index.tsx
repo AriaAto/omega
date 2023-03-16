@@ -2,12 +2,13 @@ import { useMenuStore } from '#/store/menu';
 import { createFromIconfontCN } from '@ant-design/icons';
 import { Divider, Menu } from 'antd';
 import { isString } from 'lodash';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 const { SubMenu } = Menu;
 import styles from './index.module.less';
 
 const GlobalMenu: React.FC = () => {
+  const { fetchMenus } = useMenuStore();
   const menus = useMenuStore(state => state.menus);
   const relatedMenu = useMenuStore(state => state.relatedMenus);
   const toggle = useMenuStore(state => state.toggle);
@@ -24,6 +25,15 @@ const GlobalMenu: React.FC = () => {
       navigate(props.key);
     }
   };
+
+  const getMenuData = async () => {
+    const ms = await fetchMenus(location.pathname);
+    console.log('menus', ms);
+  };
+
+  useEffect(() => {
+    getMenuData();
+  }, []);
 
   return (
     <Menu

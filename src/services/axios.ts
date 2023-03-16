@@ -68,11 +68,6 @@ export function put<T>(url: string, data: any, config?: AxiosRequestConfig): Pro
 
 export function getBlob<T>(url: string, config?: AxiosRequestConfig): Promise<Blob> {
   return axiosInstance.get<T>(url, config).then((res: any) => res);
-  // return axios
-  //   .get(url, {
-  //     responseType: 'blob',
-  //   })
-  //   .then(res => res.data);
 }
 
 export default axiosInstance;

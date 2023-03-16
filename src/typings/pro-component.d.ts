@@ -67,3 +67,27 @@ type InfoMapType = {
 import type { MenuProps } from 'antd';
 
 type MenuItem = Required<MenuProps>['items'][number];
+
+declare namespace Menu {
+  interface MenuOptions {
+    path: string;
+    title: string;
+    icon?: string;
+    isLink?: string;
+    close?: boolean;
+    children?: MenuOptions[];
+  }
+}
+
+import { RouteObject } from 'react-router';
+declare module 'react-router' {
+  export interface RouteObject {
+    caseSensitive?: boolean;
+    children?: RouteObject[];
+    element?: React.ReactNode;
+    index?: boolean;
+    path?: string;
+    meta?: MetaProps;
+    isLink?: string;
+  }
+}

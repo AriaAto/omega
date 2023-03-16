@@ -1,9 +1,11 @@
 import { IRouteConfig } from '#/types/router';
 import React, { Suspense } from 'react';
-import { Navigate, RouteObject } from 'react-router-dom';
+import { Navigate, RouteObject, useRoutes } from 'react-router';
 import routes from './routes';
 import WrapperRouteComponent from './component/WrapperRoute';
 import { PageLoading } from '@ant-design/pro-components';
+import Login from '#/pages/Login';
+import device from './modules/device';
 
 const getRouteConfig = (routeConfig: IRouteConfig): RouteObject => {
   const { path, layout, component: Comp, children, auth, redirect } = routeConfig;
@@ -37,3 +39,31 @@ const getRouteConfig = (routeConfig: IRouteConfig): RouteObject => {
 };
 
 export const getRouteConfigs = () => routes.map((route: IRouteConfig) => getRouteConfig(route));
+
+const rList = [...device];
+
+export const rootRouter: RouteObject[] = [
+  {
+    path: '/',
+    element: <Navigate to={'/device/rsu'} />,
+  },
+  {
+    path: '/user/login',
+    element: <Login />,
+    meta: {
+      requiresAuth: false,
+      title: '登录页',
+      key: 'login',
+    },
+  },
+  ...rList,
+  {
+    path: '*',
+    element: <Navigate to="/404" />,
+  },
+];
+
+export const Router = () => {
+  const routeList = useRoutes(rootRouter);
+  return routeList;
+};

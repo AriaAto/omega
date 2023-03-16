@@ -16,7 +16,7 @@ interface IMenuStore {
   favoriteMenu: any[];
   favoriteMenuInit: boolean;
   // you can hard-code or fetch the menus
-  fetchMenus: (path: string) => void;
+  fetchMenus: (path: string) => any;
   fetchFavoriteMenus: () => void;
   fetchRightMenus: () => void;
   addFavoriteMenu: (key: string) => void;
@@ -47,7 +47,7 @@ const useMenuStore = create<IMenuStore>((set, get) => ({
   fetchMenus: path => {
     const pPath = `/${path.split('/')[1]}`;
     if (get().currentMenu?.path === pPath) {
-      return;
+      return null;
     }
     const currentMenu = menuList.find(m => m.path.startsWith(pPath));
 
@@ -56,6 +56,8 @@ const useMenuStore = create<IMenuStore>((set, get) => ({
       relatedMenus: formatMenus(currentMenu?.related || []),
       currentMenu: currentMenu,
     });
+
+    return currentMenu;
   },
   fetchFavoriteMenus: () => {
     // TODO favorite menu, when you get the favoriteMenu
