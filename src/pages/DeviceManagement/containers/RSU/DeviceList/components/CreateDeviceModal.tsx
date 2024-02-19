@@ -124,7 +124,7 @@ const CreateDeviceModal: React.FC<CreateModalProps & { isRegister?: boolean }> =
       submitForm={async (values: Device.CreateDeviceParams) => {
         if (!isRegister && editId) {
           values.rsuModelId = values.rsuModelId ?? null;
-          await updateDevice();
+          await updateDevice(null, values);
         } else {
           await createDevice(isRegister ? { tmpId: editInfo!.id, ...values } : values);
         }
